@@ -38,7 +38,13 @@ export default function SpeciesCard({ species }: { species: Species }) {
       <h4 className="text-lg font-light italic">{species.common_name}</h4>
       <p>{species.description ? species.description.slice(0, 150).trim() + "..." : ""}</p>
       {/* Replace the button with the detailed view dialog. */}
-
+      {/*
+        Unsure why dialog is showing up like that, would like to fix the lack of a pop-up.
+        Small bug. Whenever the user clicks learn more and then clicks another, the page rubber bands back
+        to first learn more opening and closes it but does not open the new learn more. This is because the
+        computer is listening for click events to close the dialog. Find a way to fix this with a more intuitive
+        pop-up
+      */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button className="mt-3 w-full">
