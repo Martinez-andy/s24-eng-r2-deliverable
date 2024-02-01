@@ -25,6 +25,8 @@ export default function SpeciesCard({ species }: { species: Species }) {
 
   const [open, setOpen] = useState<boolean>(false);
 
+
+
   return (
     <div className="m-4 w-72 min-w-72 flex-none rounded border-2 p-3 shadow">
       {species.image && (
