@@ -46,9 +46,13 @@ export default function SpeciesCard({ species }: { species: Species }) {
         <DialogContent>
           <div>
             <h1>Common name: {species.common_name}</h1>
+            <br></br>
             <h1>Scientific anme: {species.scientific_name}</h1>
+            <br></br>
             <h1>Total Population: {species.total_population}</h1>
+            <br></br>
             <h1>Kingdom: {species.kingdom}</h1>
+            <br></br>
             <h1>Description: {species.description}</h1>
           </div>
         </DialogContent>
