@@ -12,10 +12,19 @@ can cause errors with matching props and state in child components if the list o
 */
 import { Button } from "@/components/ui/button";
 import type { Database } from "@/lib/schema";
+import { Dialog, DialogContent, DialogTrigger } from "@radix-ui/react-dialog";
 import Image from "next/image";
 type Species = Database["public"]["Tables"]["species"]["Row"];
 
+
+// Unsure if we are allowed or supposed to import useState but it is done in the add-species=dialog file
+import { useState } from "react";
+
+
 export default function SpeciesCard({ species }: { species: Species }) {
+
+  const [open, setOpen] = useState<boolean>(false);
+
   return (
     <div className="m-4 w-72 min-w-72 flex-none rounded border-2 p-3 shadow">
       {species.image && (
@@ -27,7 +36,23 @@ export default function SpeciesCard({ species }: { species: Species }) {
       <h4 className="text-lg font-light italic">{species.common_name}</h4>
       <p>{species.description ? species.description.slice(0, 150).trim() + "..." : ""}</p>
       {/* Replace the button with the detailed view dialog. */}
-      <Button className="mt-3 w-full">Learn More</Button>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <Button className="mt-3 w-full">
+            Learn More
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <div>
+            <h1>Common name: {species.common_name}</h1>
+            <h1>Scientific anme: {species.scientific_name}</h1>
+            <h1>Total Population: {species.total_population}</h1>
+            <h1>Kingdom: {species.kingdom}</h1>
+            <h1>Description: {species.description}</h1>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
