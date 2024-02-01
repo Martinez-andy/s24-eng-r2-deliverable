@@ -55,7 +55,7 @@ export default function SpeciesCard({ species }: { species: Species }) {
           <div>
             <h1>Common name: {species.common_name}</h1>
             <br></br>
-            <h1>Scientific anme: {species.scientific_name}</h1>
+            <h1>Scientific name: {species.scientific_name}</h1>
             <br></br>
             <h1>Total Population: {species.total_population}</h1>
             <br></br>
