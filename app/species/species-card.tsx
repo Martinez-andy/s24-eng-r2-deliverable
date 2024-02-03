@@ -15,14 +15,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components
 import type { Database } from "@/lib/schema";
 import Image from "next/image";
 // Stuff for functionality 2:
-import { createServerSupabaseClient } from "@/lib/server-utils";
-import { redirect } from "next/navigation";
 type Species = Database["public"]["Tables"]["species"]["Row"];
 
 // Unsure if we are allowed or supposed to import useState but it is done in the add-species=dialog file
 import { useState } from "react";
 
-export default function SpeciesCard({ species }: { species: Species }, { sessionId } : { sessionId : string })  {
+export default function SpeciesCard({ species }: { species: Species }, { userId } : { userId : string })  {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
@@ -53,15 +51,18 @@ export default function SpeciesCard({ species }: { species: Species }, { session
             <h1>More Details</h1>
           </DialogHeader>
           <h1>Common name: {species.common_name}</h1>
-          <br></br>
+          <br />
           <h1>Scientific name: {species.scientific_name}</h1>
-          <br></br>
+          <br />
           <h1>Total Population: {species.total_population}</h1>
-          <br></br>
+          <br />
           <h1>Kingdom: {species.kingdom}</h1>
-          <br></br>
+          <br />
+          <h1>{userId}</h1>
+          <h1>{species.author}</h1>
+          <br />
           <h1>Description: {species.description}</h1>
-          {(species.author === sessionId) &&
+          {(species.author === userId) &&
             <Button>
               Testing conditional rendering
             </Button>}
