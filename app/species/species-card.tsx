@@ -14,12 +14,15 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
 import type { Database } from "@/lib/schema";
 import Image from "next/image";
+// Stuff for functionality 2:
+import { createServerSupabaseClient } from "@/lib/server-utils";
+import { redirect } from "next/navigation";
 type Species = Database["public"]["Tables"]["species"]["Row"];
 
 // Unsure if we are allowed or supposed to import useState but it is done in the add-species=dialog file
 import { useState } from "react";
 
-export default function SpeciesCard({ species }: { species: Species }) {
+export default function SpeciesCard({ species }: { species: Species }, { sessionId } : { sessionId : string })  {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
@@ -40,12 +43,15 @@ export default function SpeciesCard({ species }: { species: Species }) {
         computer is listening for click events to close the dialog. Find a way to fix this with a more intuitive
         pop-up
       */}
+
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button className="mt-3 w-full">Learn More</Button>
         </DialogTrigger>
         <DialogContent>
-          <DialogHeader>More Details</DialogHeader>
+          <DialogHeader>
+            <h1>More Details</h1>
+          </DialogHeader>
           <h1>Common name: {species.common_name}</h1>
           <br></br>
           <h1>Scientific name: {species.scientific_name}</h1>
@@ -55,6 +61,10 @@ export default function SpeciesCard({ species }: { species: Species }) {
           <h1>Kingdom: {species.kingdom}</h1>
           <br></br>
           <h1>Description: {species.description}</h1>
+          {(species.author === sessionId) &&
+            <Button>
+              Testing conditional rendering
+            </Button>}
         </DialogContent>
       </Dialog>
     </div>
