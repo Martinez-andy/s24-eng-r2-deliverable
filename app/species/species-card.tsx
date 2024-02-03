@@ -57,7 +57,7 @@ export default function SpeciesCard({ species, userId }: { species: Species, use
           <h1>Description: {species.description}</h1>
           {(species.author === userId) &&
             <Button>
-              Testing conditional rendering
+              Edit Entry
             </Button>}
         </DialogContent>
       </Dialog>
