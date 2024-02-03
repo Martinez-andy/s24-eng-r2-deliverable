@@ -20,7 +20,7 @@ type Species = Database["public"]["Tables"]["species"]["Row"];
 // Unsure if we are allowed or supposed to import useState but it is done in the add-species=dialog file
 import { useState } from "react";
 
-export default function SpeciesCard({ species }: { species: Species }, { userId } : { userId : string })  {
+export default function SpeciesCard({ species, userId }: { species: Species, userId : string})  {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
@@ -35,11 +35,7 @@ export default function SpeciesCard({ species }: { species: Species }, { userId 
       <p>{species.description ? species.description.slice(0, 150).trim() + "..." : ""}</p>
       {/* Replace the button with the detailed view dialog. */}
       {/*
-        Unsure why dialog is showing up like that, would like to fix the lack of a pop-up.
-        Small bug. Whenever the user clicks learn more and then clicks another, the page rubber bands back
-        to first learn more opening and closes it but does not open the new learn more. This is because the
-        computer is listening for click events to close the dialog. Find a way to fix this with a more intuitive
-        pop-up
+        Unsure why userId is an empty string
       */}
 
       <Dialog open={open} onOpenChange={setOpen}>
@@ -57,8 +53,6 @@ export default function SpeciesCard({ species }: { species: Species }, { userId 
           <h1>Total Population: {species.total_population}</h1>
           <br />
           <h1>Kingdom: {species.kingdom}</h1>
-          <br />
-          <h1>{userId}</h1>
           <br />
           <h1>Description: {species.description}</h1>
           {(species.author === userId) &&
