@@ -59,7 +59,6 @@ export default function SpeciesCard({ species }: { species: Species }, { userId 
           <h1>Kingdom: {species.kingdom}</h1>
           <br />
           <h1>{userId}</h1>
-          <h1>{species.author}</h1>
           <br />
           <h1>Description: {species.description}</h1>
           {(species.author === userId) &&
