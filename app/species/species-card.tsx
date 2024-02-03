@@ -11,18 +11,15 @@ React server components don't track state between rerenders, so leaving the uniq
 can cause errors with matching props and state in child components if the list order changes.
 */
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
 import type { Database } from "@/lib/schema";
-import { Dialog, DialogContent, DialogTrigger } from "@radix-ui/react-dialog";
 import Image from "next/image";
 type Species = Database["public"]["Tables"]["species"]["Row"];
-
 
 // Unsure if we are allowed or supposed to import useState but it is done in the add-species=dialog file
 import { useState } from "react";
 
-
 export default function SpeciesCard({ species }: { species: Species }) {
-
   const [open, setOpen] = useState<boolean>(false);
 
   return (
@@ -45,22 +42,19 @@ export default function SpeciesCard({ species }: { species: Species }) {
       */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="mt-3 w-full">
-            Learn More
-          </Button>
+          <Button className="mt-3 w-full">Learn More</Button>
         </DialogTrigger>
         <DialogContent>
-          <div>
-            <h1>Common name: {species.common_name}</h1>
-            <br></br>
-            <h1>Scientific name: {species.scientific_name}</h1>
-            <br></br>
-            <h1>Total Population: {species.total_population}</h1>
-            <br></br>
-            <h1>Kingdom: {species.kingdom}</h1>
-            <br></br>
-            <h1>Description: {species.description}</h1>
-          </div>
+          <DialogHeader>More Details</DialogHeader>
+          <h1>Common name: {species.common_name}</h1>
+          <br></br>
+          <h1>Scientific name: {species.scientific_name}</h1>
+          <br></br>
+          <h1>Total Population: {species.total_population}</h1>
+          <br></br>
+          <h1>Kingdom: {species.kingdom}</h1>
+          <br></br>
+          <h1>Description: {species.description}</h1>
         </DialogContent>
       </Dialog>
     </div>
