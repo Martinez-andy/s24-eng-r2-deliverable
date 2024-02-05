@@ -194,7 +194,7 @@ export default function EditEntryDialog({ species, userId }: { species: Species,
                       <SelectContent>
                         <SelectGroup>
                           {kingdoms.options.map((kingdom, index) => (
-                            <SelectItem key={index} value={kingdom}>
+                            <SelectItem key={index} value={kingdom} disabled={isEditing}>
                               {kingdom}
                             </SelectItem>
                           ))}

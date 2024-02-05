@@ -218,7 +218,7 @@ export default function LearnMoreDialog({species, userId}: {species: Species, us
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Kingdom</FormLabel>
-                    <Select onValueChange={(value) => field.onChange(kingdoms.parse(value))} value={field.value}>
+                    <Select onValueChange={(value) => field.onChange(kingdoms.parse(value))} value={field.value} disabled={!isEditing}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select a kingdom" />
