@@ -25,31 +25,41 @@ import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import LearnMoreDialog from "./learn-more-dialog";
+import EditEntryDialog  from "./edit-entry-dialog";
 // Stuff for functionality 2:
 type Species = Database["public"]["Tables"]["species"]["Row"];
 
 
-// Stuff from AddSpeciesDialog to make form work
 
+// Form stuff from Add-Species-Dialog.tsx
 
+// Add a verify cancel button
 
-export default function SpeciesCard({ species, userId }: { species: Species, userId : string})  {
+export default function LearnMoreDialog({species, userId}: {species: Species, userId: string}) {
+  const [open, setOpen] = useState<boolean>(false);
 
   return (
-    <div className="m-4 w-72 min-w-72 flex-none rounded border-2 p-3 shadow">
-      {species.image && (
-        <div className="relative h-40 w-full">
-          <Image src={species.image} alt={species.scientific_name} fill style={{ objectFit: "cover" }} />
-        </div>
-      )}
-      <h3 className="mt-3 text-2xl font-semibold">{species.scientific_name}</h3>
-      <h4 className="text-lg font-light italic">{species.common_name}</h4>
-      <p>{species.description ? species.description.slice(0, 150).trim() + "..." : ""}</p>
-      {/* Replace the button with the detailed view dialog. */}
-      {/*
-        Unsure why userId is an empty string
-      */}
-      <LearnMoreDialog species={species} userId={userId}></LearnMoreDialog>
-      </div>);
+    <Dialog open={open} onOpenChange={setOpen}>
+              <DialogTrigger asChild>
+                <Button className="mt-3 w-full">Learn More</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>More Details:</DialogTitle>
+                </DialogHeader>
+                {/* Maybe we need to use useState from react? */}
+                <p>Common name: {species.common_name}</p>
+                <br />
+                <p>Scientific name: {species.scientific_name}</p>
+                <br />
+                <p>Total Population: {species.total_population}</p>
+                <br />
+                <p>Kingdom: {species.kingdom}</p>
+                <br />
+                <p>Description: {species.description}</p>
+                {(species.author === userId) &&
+                <EditEntryDialog species={species} userId={userId}></EditEntryDialog>}
+              </DialogContent>
+      </Dialog>
+  )
 }
