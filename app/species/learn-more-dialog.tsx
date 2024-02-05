@@ -132,6 +132,7 @@ export default function LearnMoreDialog({species, userId}: {species: Species, us
       // Set the form values to those that were just submitted.
       form.reset(input);
 
+      // Needed to make sure the card updates with the newly inputted information!
       router.refresh();
 
       // Provide the user with a message letting them know that their updates went through successfully!
@@ -140,16 +141,20 @@ export default function LearnMoreDialog({species, userId}: {species: Species, us
       });
   };
 
+  // Activated when the "start editing" button is clicked. Allows the user to edit the input fields
   const startEditing = (e: MouseEvent) => {
     e.preventDefault();
     setIsEditing(true);
   };
 
+  // Activated when the "cancel" button is clicked. Reverts all edits and reverts input fields back to being immutable.
   const handleCancel = (e: MouseEvent) => {
     e.preventDefault();
 
+    // Reset the form to its inputs
     form.reset(defaultValues);
 
+    // Make the form immutable again.
     setIsEditing(false);
   }
 
@@ -334,7 +339,6 @@ export default function LearnMoreDialog({species, userId}: {species: Species, us
                     Start Editing
                   </Button>
                 </div>))}
-
             </div>
           </form>
         </Form>
