@@ -14,30 +14,33 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogClose,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
-import type { Database } from "@/lib/schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
-import { useState, type BaseSyntheticEvent } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import EditEntryDialog  from "./edit-entry-dialog";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { createBrowserSupabaseClient } from "@/lib/client-utils";
+import { useState, type BaseSyntheticEvent } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-// Stuff for functionality 2:
+import type { Database } from "@/lib/schema";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+
+// Initialize species type
 type Species = Database["public"]["Tables"]["species"]["Row"];
 
+
+// Contrain species to the following strings
 const kingdoms = z.enum(["Animalia", "Plantae", "Fungi", "Protista", "Archaea", "Bacteria"]);
 
+// Define the current input contraints
 const speciesSchema = z.object({
   scientific_name: z
     .string()
@@ -65,20 +68,20 @@ const speciesSchema = z.object({
 });
 
 
+// Create type for form iput data and its structure (species schema)
 type FormData = z.infer<typeof speciesSchema>;
 
 
-
-
-
-
-
-
-
-
+// The Learn More Dialog component + Edit Entry feature
 export default function LearnMoreDialog({species, userId}: {species: Species, userId: string}) {
+  const router = useRouter();
+
+
+
+  // Keep track of whether the user is editing the input or not
   const [isEditing, setIsEditing] = useState(false);
 
+  // Define the inital values for the inputs (AKA current entry values)
   const defaultValues: Partial<FormData> = {
     scientific_name: species.scientific_name,
     common_name: species.common_name,
@@ -88,13 +91,14 @@ export default function LearnMoreDialog({species, userId}: {species: Species, us
     description: species.description,
   };
 
+  // Define the form
   const form = useForm<FormData>({
     resolver: zodResolver(speciesSchema),
     defaultValues,
     mode: "onChange",
   });
 
-  // Handles the updating of information once form is submitted
+  // Handles the updating of species information once form is submitted
   const onSubmit = async (input: FormData) => {
 
     // Instantiate a supabase object
@@ -125,13 +129,14 @@ export default function LearnMoreDialog({species, userId}: {species: Species, us
       // Since no errors happened do the following...
       setIsEditing(false);
 
-
       // Set the form values to those that were just submitted.
       form.reset(input);
 
+      router.refresh();
+
       // Provide the user with a message letting them know that their updates went through successfully!
       return toast({
-        title: "Species information updated successfully!"
+        title: `${species.common_name} data was updated successfully!`
       });
   };
 
@@ -154,7 +159,7 @@ export default function LearnMoreDialog({species, userId}: {species: Species, us
       <DialogTrigger asChild>
         <Button className="mt-3 w-full">Learn More</Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-h-screen overflow-y-auto sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>
           {isEditing ? (
@@ -170,7 +175,7 @@ export default function LearnMoreDialog({species, userId}: {species: Species, us
           <DialogDescription>
             {isEditing ? (
               <>
-                Edit the input fields below and click the &quot;Edit Entry&quot; button to submit changes. To cancel all edits click the &quot;Cancel&quot; button
+                Edit the input fields below and click the &quot;Edit Entry&quot; button to submit changes.
               </>
             ) : (
               <>
