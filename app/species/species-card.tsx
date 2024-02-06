@@ -32,10 +32,6 @@ export default function SpeciesCard({ species, userId }: { species: Species, use
       <h3 className="mt-3 text-2xl font-semibold">{species.scientific_name}</h3>
       <h4 className="text-lg font-light italic">{species.common_name}</h4>
       <p>{species.description ? species.description.slice(0, 150).trim() + "..." : ""}</p>
-      {/* Replace the button with the detailed view dialog. */}
-      {/*
-        Unsure why userId is an empty string
-      */}
       <LearnMoreDialog species={species} userId={userId}></LearnMoreDialog>
       </div>);
 }
