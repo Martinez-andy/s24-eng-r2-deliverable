@@ -28,8 +28,6 @@ export default async function SpeciesList() {
     chronological ordering by using state variables.
   */
   return (
-    <>
-      <InteractivePage species={species} alphaSpecies={alphaSpecies} sessionId={sessionId}></InteractivePage>
-    </>
+    <InteractivePage species={species} alphaSpecies={alphaSpecies} sessionId={sessionId}></InteractivePage>
   );
 }

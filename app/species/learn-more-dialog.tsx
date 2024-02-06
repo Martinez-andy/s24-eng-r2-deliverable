@@ -300,7 +300,7 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
                       <FormItem>
                         <FormLabel>Scientific Name</FormLabel>
                         <FormControl>
-                          <Input readOnly={!isEditing} placeholder={species.scientific_name} {...field} />
+                          <Input readOnly={!isEditing} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -340,7 +340,7 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select a kingdom" />
+                              <SelectValue/>
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -370,7 +370,6 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
                             <Input
                               type="number"
                               value={value ?? ""}
-                              placeholder="300000"
                               {...rest}
                               onChange={(event) => field.onChange(+event.target.value)}
                               readOnly={!isEditing}
@@ -459,8 +458,3 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
     </Dialog>
   );
 }
-
-
-// 118
-// 322
-// 419
