@@ -35,6 +35,7 @@ import { z } from "zod";
 // Initialize species type
 type Species = Database["public"]["Tables"]["species"]["Row"];
 
+
 // Contrain species to the following strings
 const kingdoms = z.enum(["Animalia", "Plantae", "Fungi", "Protista", "Archaea", "Bacteria"]);
 
@@ -110,9 +111,7 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
   });
 
   // Defintes type for the deletion form
-
   const onDelete = async (delInput: DelData) => {
-    console.log("Hello");
     if (delInput.del_statement === `DELETE ${species.scientific_name}`) {
       const supabase = createBrowserSupabaseClient();
 
@@ -137,8 +136,7 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
         title: `${species.scientific_name} was successfully deleted`,
       });
     }
-    // Input is showing up as undefined
-    console.log(delInput.del_statement);
+    delForm.reset(delDefault);
     return toast({
       title: "Something went wrong.",
       description: "Improper deletion input",
@@ -212,7 +210,9 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
     setIsDeleting(true);
   };
 
-  // Dialog should be a form that is not editable.
+
+
+  
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -222,9 +222,8 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
         {isDeleting ? (
           <>
             <DialogHeader>
-              <DialogTitle>DELETE ENTRY (THIS IS NOT REVERSIBLE):</DialogTitle>
-              <DialogDescription>In each of the forms type: DELETE {species.scientific_name}</DialogDescription>
-
+              <DialogTitle>DELETE ENTRY:</DialogTitle>
+              <DialogDescription>DELETING IS NOT REVERSIBLE!</DialogDescription>
               <Form {...delForm}>
                 <form onSubmit={(e: BaseSyntheticEvent) => void delForm.handleSubmit(onDelete)(e)}>
                   <div className="grid w-full items-center gap-4">
@@ -400,7 +399,6 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
                       );
                     }}
                   />
-
                   {/*
                       First asks if the user should have the ability to edit. AKA if current user is original author
                       Then it asks, "is the user in edit mode?" AKA has the user clicked the start editing button.

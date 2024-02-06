@@ -10,21 +10,8 @@ on the client-side to correctly match component state and props should the order
 React server components don't track state between rerenders, so leaving the uniquely identified components (e.g. SpeciesCard)
 can cause errors with matching props and state in child components if the list order changes.
 */
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from "@/components/ui/dialog";
 import type { Database } from "@/lib/schema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import LearnMoreDialog from "./learn-more-dialog";
 // Stuff for functionality 2:
 type Species = Database["public"]["Tables"]["species"]["Row"];
@@ -33,8 +20,7 @@ type Species = Database["public"]["Tables"]["species"]["Row"];
 // Stuff from AddSpeciesDialog to make form work
 
 
-
-export default function SpeciesCard({ species, userId }: { species: Species, userId : string})  {
+export default function SpeciesCard({ species, userId }: { species: Species, userId : string })  {
 
   return (
     <div className="m-4 w-72 min-w-72 flex-none rounded border-2 p-3 shadow">
