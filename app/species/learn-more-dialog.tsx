@@ -10,7 +10,6 @@ on the client-side to correctly match component state and props should the order
 React server components don't track state between rerenders, so leaving the uniquely identified components (e.g. SpeciesCard)
 can cause errors with matching props and state in child components if the list order changes.
 */
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -19,16 +18,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { createBrowserSupabaseClient } from "@/lib/client-utils";
+import { useState, type BaseSyntheticEvent } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
-import { createBrowserSupabaseClient } from "@/lib/client-utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import type { Database } from "@/lib/schema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useState, type BaseSyntheticEvent } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -212,7 +212,7 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
 
 
 
-  
+
   return (
     <Dialog>
       <DialogTrigger asChild>

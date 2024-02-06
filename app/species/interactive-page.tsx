@@ -1,7 +1,8 @@
 "use client";
 
-import { Separator } from "@/components/ui/separator";
+
 import { TypographyH2 } from "@/components/ui/typography";
+import { Separator } from "@/components/ui/separator";
 import AddSpeciesDialog from "./add-species-dialog";
 import { Button } from "@/components/ui/button";
 import type { Database } from "@/lib/schema";
