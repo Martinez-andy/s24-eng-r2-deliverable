@@ -212,13 +212,13 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
   };
 
   // Activated when the "start editing" button is clicked. Allows the user to edit the input fields
-  const startEditing = (e: MouseEvent) => {
+  const startEditing = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsEditing(true);
   };
 
   // Activated when the "cancel" button is clicked. Reverts all edits and reverts input fields back to being immutable.
-  const handleCancel = (e: MouseEvent) => {
+  const handleCancel = (e: React.MouseEvent) => {
     e.preventDefault();
 
     // Reset the form to its inputs
@@ -230,7 +230,7 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
   };
 
   // Handles the rendering of delete confirmation dialog.
-  const renderDelete = (e: MouseEvent) => {
+  const renderDelete = (e: React.MouseEvent) => {
     e.preventDefault();
 
     setIsDeleting(true);

@@ -23,7 +23,7 @@ export default function InteractivePage ({ species, alphaSpecies, sessionId} :
 
 
     // Toggle the ordering boolean. Switching the orderin of the inputs
-    const handleOrdering = (e: MouseEvent) => {
+    const handleOrdering = (e: React.MouseEvent) => {
       e.preventDefault();
 
       setAlphabetical(!alphabetical);
