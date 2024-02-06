@@ -10,6 +10,10 @@ import SpeciesCard from "./species-card";
 import { useState } from "react";
 
 
+
+
+
+
 type Species = Database["public"]["Tables"]["species"]["Row"];
 
 export default function InteractivePage ({ species, alphaSpecies, sessionId} :
@@ -22,6 +26,14 @@ export default function InteractivePage ({ species, alphaSpecies, sessionId} :
       <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
         <TypographyH2>Species List</TypographyH2>
         <div className="flex flex-wrap items-center justify-between gap-3">
+
+
+
+
+
+
+
+
           <Button variant="secondary" onClick={() => setAlphabetical(!alphabetical)}>{!alphabetical ? (
             <p>Order Alphabetically: A-Z</p>
           ) : (
