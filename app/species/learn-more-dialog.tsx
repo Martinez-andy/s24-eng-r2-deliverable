@@ -115,7 +115,6 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
   // Define the delete form object
   const delForm = useForm<DelData>({
     resolver: zodResolver(delSchema),
-    delDefault,
     mode: "onChange",
   });
 
