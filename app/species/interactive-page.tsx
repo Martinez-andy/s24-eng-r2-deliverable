@@ -18,8 +18,16 @@ type Species = Database["public"]["Tables"]["species"]["Row"];
 
 export default function InteractivePage ({ species, alphaSpecies, sessionId} :
   { species : Species[], alphaSpecies : Species[], sessionId: string}) {
-
+    // uses useState to update the alphabetical boolean when the "Order Alphabetically" button is clicked.
     const [alphabetical, setAlphabetical] = useState<boolean>(false);
+
+
+    // Toggle the ordering boolean. Switching the orderin of the inputs
+    const handleOrdering = (e: MouseEvent) => {
+      e.preventDefault();
+
+      setAlphabetical(!alphabetical);
+    };
 
   return (
       <>
@@ -27,14 +35,8 @@ export default function InteractivePage ({ species, alphaSpecies, sessionId} :
         <TypographyH2>Species List</TypographyH2>
         <div className="flex flex-wrap items-center justify-between gap-3">
 
-
-
-
-
-
-
-
-          <Button variant="secondary" onClick={() => setAlphabetical(!alphabetical)}>{!alphabetical ? (
+          {/* Handles changing the ordering button through the use of the alphabetical boolean */}
+          <Button variant="secondary" onClick={handleOrdering}>{!alphabetical ? (
             <p>Order Alphabetically: A-Z</p>
           ) : (
             <div className="flex flex-wrap items-center justify-between gap-1">
@@ -46,6 +48,7 @@ export default function InteractivePage ({ species, alphaSpecies, sessionId} :
         </div>
       </div>
       <Separator className="my-4" />
+      {/* Updates the ordering of the lists using the alphabetical boolean */}
       {alphabetical ? (
         <>
           <div className="flex flex-wrap justify-center">

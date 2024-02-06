@@ -18,9 +18,6 @@ import Image from "next/image";
 type Species = Database["public"]["Tables"]["species"]["Row"];
 
 
-// Stuff from AddSpeciesDialog to make form work
-
-
 export default function SpeciesCard({ species, userId }: { species: Species, userId : string })  {
 
   return (

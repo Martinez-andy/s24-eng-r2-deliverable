@@ -36,10 +36,11 @@ import { z } from "zod";
 type Species = Database["public"]["Tables"]["species"]["Row"];
 
 
-// Contrain species to the following strings
+// Restrict species to the following strings
 const kingdoms = z.enum(["Animalia", "Plantae", "Fungi", "Protista", "Archaea", "Bacteria"]);
 
-// Define the current input contraints
+
+// Define the species input contraints
 const speciesSchema = z.object({
   scientific_name: z
     .string()
@@ -66,20 +67,25 @@ const speciesSchema = z.object({
     .transform((val) => (!val || val.trim() === "" ? null : val.trim())),
 });
 
+
+// Define the delete statement's contraints (aka schema)
 const delSchema = z.object({
   del_statement: z.string(),
 });
 
-// Create type for form iput data and its structure (species schema)
+
+// Create type for the edit species form as well as the delete entry form.
 type FormData = z.infer<typeof speciesSchema>;
 type DelData = z.infer<typeof delSchema>;
 
-// The Learn More Dialog component + Edit Entry feature
+// The Learn More Dialog component + Edit Entry feature + delete entry
 export default function LearnMoreDialog({ species, userId }: { species: Species; userId: string }) {
   const router = useRouter();
 
   // Keep track of whether the user is editing the input or not
   const [isEditing, setIsEditing] = useState(false);
+
+  // Keep track of whether the user is deleting the entry or not
   const [isDeleting, setIsDeleting] = useState(false);
 
   // Define the inital values for the inputs (AKA current entry values)
@@ -92,31 +98,42 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
     description: species.description,
   };
 
+  // Define the delete entry form to an empty string (aka no input)
   const delDefault: Partial<DelData> = {
     del_statement: "",
   };
 
-  // Define the form
+
+  // Define the form object
   const form = useForm<FormData>({
     resolver: zodResolver(speciesSchema),
     defaultValues,
     mode: "onChange",
   });
 
-  // Define the delete form
+
+  // Define the delete form object
   const delForm = useForm<DelData>({
     resolver: zodResolver(delSchema),
     delDefault,
     mode: "onChange",
   });
 
-  // Defintes type for the deletion form
+
+  // Handles the deleting an entry. Function also checks to make sure the input is correct, if not then it raises an error
   const onDelete = async (delInput: DelData) => {
+
+    // Check input to make sure it matches the delete statement
     if (delInput.del_statement === `DELETE ${species.scientific_name}`) {
+
+      // prepare a supabase object so we can delete the species' entry
       const supabase = createBrowserSupabaseClient();
 
+
+      // Delete species' entry
       const { error } = await supabase.from("species").delete().eq("id", species.id);
 
+      // Handle errors
       if (error) {
         return toast({
           title: "Something went wrong.",
@@ -125,17 +142,23 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
         });
       }
 
+      // Clear the form
       delForm.reset(delDefault);
 
+      // reset the usestate to revert the dialog back to normal state
       setIsDeleting(false);
       setIsEditing(false);
 
+      // Update the page to reflect the entry's deletion
       router.refresh();
 
+      // Tell the user the deletion happened properly
       return toast({
         title: `${species.scientific_name} was successfully deleted`,
       });
     }
+
+    // Since input doesn't match the delete statement, raise an error and clear form
     delForm.reset(delDefault);
     return toast({
       title: "Something went wrong.",
@@ -144,10 +167,12 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
     });
   };
 
+
   // Handles the updating of species information once form is submitted
   const onSubmit = async (input: FormData) => {
     // Instantiate a supabase object
     const supabase = createBrowserSupabaseClient();
+
 
     // Update supabase database with form's input, use species.id to identify entry
     const { error } = await supabase
@@ -204,15 +229,17 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
     setIsDeleting(false);
   };
 
+  // Handles the rendering of delete confirmation dialog.
   const renderDelete = (e: MouseEvent) => {
     e.preventDefault();
 
     setIsDeleting(true);
   };
 
-
-
-
+  /*
+    Renders the learn more dialog. Also coantains edit entry, and delete entry logic,
+    Put into one componenet to avoid using embedded dialog pop-ups
+  */
   return (
     <Dialog>
       <DialogTrigger asChild>

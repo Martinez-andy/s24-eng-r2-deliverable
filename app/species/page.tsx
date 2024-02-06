@@ -1,4 +1,3 @@
-
 import { createServerSupabaseClient } from "@/lib/server-utils";
 import InteractivePage from "./interactive-page";
 import { redirect } from "next/navigation";
@@ -19,18 +18,18 @@ export default async function SpeciesList() {
   // Obtain the ID of the currently signed-in user
   const sessionId = session.user.id;
 
+  // Pull list of species order chronologcially and alphabetically
   const { data: species } = await supabase.from("species").select("*").order("id", { ascending: false });
   const { data: alphaSpecies } = await supabase.from("species").select("*").order("scientific_name", { ascending: true });
 
+  /*
+    Return interactive page componenet. Identical to original JSX but moved to a
+    client rendered page. This allowed for easy toggling between alphabetical and
+    chronological ordering by using state variables.
+  */
   return (
     <>
       <InteractivePage species={species} alphaSpecies={alphaSpecies} sessionId={sessionId}></InteractivePage>
     </>
   );
 }
-
-/*
-    <div className="flex flex-wrap justify-center">
-      {alphaSpecies?.map((alphaSpecies) => <SpeciesCard key={alphaSpecies.id} species={alphaSpecies} userId={sessionId}/>)}
-    </div>
-*/
