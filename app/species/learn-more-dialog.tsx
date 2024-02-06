@@ -115,6 +115,7 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
   // Define the delete form object
   const delForm = useForm<DelData>({
     resolver: zodResolver(delSchema),
+    defaultValues: delDefault,
     mode: "onChange",
   });
 
@@ -318,7 +319,6 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
                             <Input
                               readOnly={!isEditing}
                               value={value ?? ""}
-                              placeholder={species.common_name}
                               {...rest}
                             />
                           </FormControl>
@@ -415,7 +415,6 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
                           <FormControl>
                             <Textarea
                               value={value ?? ""}
-                              placeholder={species.description}
                               {...rest}
                               readOnly={!isEditing}
                             />
@@ -460,3 +459,8 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
     </Dialog>
   );
 }
+
+
+// 118
+// 322
+// 419
