@@ -200,7 +200,7 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
 
     // Reset the form to its inputs
     form.reset(defaultValues);
-
+    delForm.reset(delDefault);
     // Make the form immutable again.
     setIsEditing(false);
     setIsDeleting(false);
@@ -235,7 +235,7 @@ export default function LearnMoreDialog({ species, userId }: { species: Species;
                         <FormItem>
                           <FormLabel>Type: DELETE {species.scientific_name}</FormLabel>
                           <FormControl>
-                            <Input placeholder={species.scientific_name} {...field} />
+                            <Input placeholder={"DELETE " + species.scientific_name} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
