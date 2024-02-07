@@ -10,14 +10,10 @@ import SpeciesCard from "./species-card";
 import { useState } from "react";
 
 
-
-
-
-
 type Species = Database["public"]["Tables"]["species"]["Row"];
 
 export default function InteractivePage ({ species, alphaSpecies, sessionId} :
-  { species : Species[], alphaSpecies : Species[], sessionId: string}) {
+  { species : Species[] | null, alphaSpecies : Species[] | null, sessionId: string}) {
     // uses useState to update the alphabetical boolean when the "Order Alphabetically" button is clicked.
     const [alphabetical, setAlphabetical] = useState<boolean>(false);
 

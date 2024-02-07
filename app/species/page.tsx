@@ -3,6 +3,10 @@ import InteractivePage from "./interactive-page";
 import { redirect } from "next/navigation";
 
 
+
+import type { Database } from "@/lib/schema";
+type Species = Database["public"]["Tables"]["species"]["Row"];
+
 export default async function SpeciesList() {
   // Create supabase server component client and obtain user session from stored cookie
   const supabase = createServerSupabaseClient();
